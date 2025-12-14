@@ -169,6 +169,23 @@ aside {
 	width: 100%;
 	float: none;
 }
+
+.profile {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.profile img {
+  width: 250px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.profile-text {
+  flex: 1;
+}
+
 #side-inner {
 	padding: 15px;
 }
