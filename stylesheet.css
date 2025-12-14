@@ -4,7 +4,7 @@ body {
   background-image: url("maid.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: center center;
+  background-position: center;
   background-size: cover;
   background-color: #afeeee;
   margin: 0;
@@ -17,51 +17,55 @@ body {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  padding: 30px;
 }
 
-#content {
-  float: right;
-  width: 70%;
+header h1 {
+  margin: 0;
+  font-size: 28px;
 }
 
-aside {
-  float: left;
-  width: 30%;
+.description {
+  margin-top: 5px;
+  color: #666;
 }
 
+/* プロフィール全体 */
 .profile {
   display: flex;
   gap: 30px;
+  margin-top: 30px;
   align-items: flex-start;
 }
-@media screen and (max-width: 768px) {
 
-  #content,
-  aside {
-    float: none;
-    width: 100%;
-  }
-
-  aside {
-    margin-top: 20px;
-  }
-
-  .profile {
-    flex-direction: column;
-  }
+.profile img {
+  width: 250px;
+  height: auto;
+  border-radius: 12px;
 }
-@media screen and (max-width: 600px) {
 
-  #outer {
-    width: 100%;
-    margin: 0;
-  }
+.profile-text {
+  flex: 1;
+}
 
-  h1 {
-    font-size: 22px;
-  }
+h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #999;
+}
 
-  .profile img {
-    width: 100%;
-  }
+h3 {
+  margin-top: 30px;
+}
+
+.links ul {
+  padding-left: 1em;
+}
+
+.links li {
+  margin: 5px 0;
+}
+
+a {
+  color: #003366;
+  text-decoration: none;
 }
