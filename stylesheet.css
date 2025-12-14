@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@media screen and (max-width: 768px) {
 body {
 	background-image: url("maid.jpg");
   background-repeat: no-repeat;
@@ -190,6 +189,5 @@ aside {
 
 #side-inner {
 	padding: 15px;
-}
 }
 }
