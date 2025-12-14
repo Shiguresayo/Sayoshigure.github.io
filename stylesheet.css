@@ -183,6 +183,7 @@ h1 {
 aside {
 	width: 100%;
 	float: none;
+	margin-top: 0;
 }
 
 #side-inner {
