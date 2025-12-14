@@ -1,4 +1,7 @@
 @charset "UTF-8";
+{background-image: url("maid 400x400.jpg");
+  background-repeat: no-repeat;
+	  background-attachment: fixed;}
 body {
 	background-color: #afeeee;
 	margin: 0;
