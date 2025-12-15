@@ -20,6 +20,12 @@
     padding: 10px 20px;
     font-size: 16px;
   }
+  #result {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
@@ -30,49 +36,69 @@
   <img class="reel" src="pamo1.jpg" alt="リール3">
 </div>
 <button id="startBtn">スタート</button>
+<div id="result"></div>
 
 <script>
 const images = ["pamo1.jpg", "pamo2.jpg", "pamo3.jpg"];
 const reels = document.querySelectorAll(".reel");
 const btn = document.getElementById("startBtn");
+const resultDiv = document.getElementById("result");
 
 btn.addEventListener("click", () => {
-    btn.disabled = true; // ボタン連打防止
+    btn.disabled = true; 
+    resultDiv.textContent = ""; 
 
-    // 各リールごとに「回転中の表示周期」を決める
-    const reelCycles = [0,1,2]; // 0: pamo1, 1: pamo2, 2: pamo3 の順にループ
-    const timesArray = [20, 30, 40]; // 回転回数
-    const interval = 100;
+    const interval = 100; 
+    const totalSpins = 30; 
+    const stopDelays = [0, 5, 10]; 
+    let count = 0;
 
-    reels.forEach((reel, i) => {
-        let count = 0;
-        let cycleIndex = 0;
+    // 回転中は一定速度
+    const reelInterval = setInterval(() => {
+        reels.forEach((reel, i) => {
+            if(count < totalSpins + stopDelays[i]){
+                const cycleIndex = (count + i) % images.length;
+                reel.src = images[cycleIndex];
+            }
+        });
+        count++;
+        if(count >= totalSpins + stopDelays[reels.length -1]){
+            clearInterval(reelInterval);
+            // 減速停止演出を順番に開始
+            reels.forEach((reel, i) => slowStop(reel, i));
+        }
+    }, interval);
 
-        const reelInterval = setInterval(() => {
-            // 回転中は周期的に画像を切り替える
-            reel.src = images[reelCycles[cycleIndex % images.length]];
-            cycleIndex++;
-            count++;
+    // 減速停止用関数
+    function slowStop(reel, reelIndex){
+        let delay = 50; // 最初の間隔
+        const steps = 5; // 減速段階
+        let step = 0;
 
-            if(count >= timesArray[i]){
-                clearInterval(reelInterval);
-
-                // 最後に止める画像をランダムで決める
+        function stepRotation(){
+            if(step < steps){
+                const nextIndex = (Math.floor(Math.random()*images.length));
+                reel.src = images[nextIndex];
+                delay += 50; // 徐々に間隔を長く
+                step++;
+                setTimeout(stepRotation, delay);
+            } else {
+                // 最後に止める画像を決定
                 const finalIndex = Math.floor(Math.random() * images.length);
                 reel.src = images[finalIndex];
 
                 // 全部止まったら当たり判定
-                if(Array.from(reels).every(r => r.src.includes(reel.src.split('/').pop()))) {
-                    setTimeout(() => alert("当たり！"), 100);
-                }
-
-                // 最後のリールが止まったらボタン有効化
-                if(i === reels.length - 1){
+                if(reelIndex === reels.length -1){
+                    const first = reels[0].src.split('/').pop();
+                    const allSame = Array.from(reels).every(r => r.src.includes(first));
+                    resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ…😢";
                     btn.disabled = false;
                 }
             }
-        }, interval);
-    });
+        }
+        // リールごとに少し遅らせて順番に減速
+        setTimeout(stepRotation, reelIndex * 200);
+    }
 });
 </script>
 
