@@ -38,60 +38,13 @@ header h1 {
   font-size: 14px;
 }
 
-/* メイン部分 */
+/* メイン部分：左右2カラム */
 .profile {
   display: flex;
-  flex-direction: column;
   gap: 20px;
-  align-items: flex-start;
+  flex: 1;
   overflow: hidden;
 }
 
 .profile-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-
-.profile img {
-  width: auto;
-  max-height: 25vh;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.profile-text {
-  overflow: auto;
-  padding-right: 10px;
-}
-
-.profile-text h2, .profile-text h3, .profile-text h4 {
-  margin-top: 0;
-  border-bottom: 1px solid #999;
-  font-size: 16px;
-}
-
-.links ul {
-  padding-left: 1em;
-  margin: 5px 0;
-}
-
-.links li {
-  margin: 3px 0;
-  font-size: 14px;
-}
-
-a {
-  color: #003366;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* パモスロット */
-.reel-container { display:flex; justify-content:center; gap:10px; margin-top:10px;}
-.reel-wrapper { width:100p
+  f
