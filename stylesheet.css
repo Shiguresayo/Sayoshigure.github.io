@@ -46,5 +46,126 @@ header h1 {
   overflow: hidden;
 }
 
+/* 左側：プロフィール＋リンク集 */
 .profile-left {
-  f
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.profile img {
+  width: auto;       /* 横幅自動 */
+  height: auto;      /* 高さ自動 */
+  max-width: 250px;  /* 最大横幅 */
+  max-height: 35vh;  /* 最大高さ */
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.profile-text {
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.profile-text h2, .profile-text h3, .profile-text h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #999;
+  font-size: 16px;
+}
+
+.links ul {
+  padding-left: 1em;
+  margin: 5px 0;
+}
+
+.links li {
+  margin: 3px 0;
+  font-size: 14px;
+}
+
+a {
+  color: #003366;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 右側：パモスロット */
+.profile-right {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reel-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.reel-wrapper {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border: 2px solid #333;
+  border-radius: 8px;
+}
+
+.reel-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.reel-inner img {
+  width: 100px;
+  height: 100px;
+}
+
+#startBtn {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+#result {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+  min-height: 30px;
+}
+
+/* Footer */
+footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  text-align: center;
+  color: #444;
+  border-top: 1px solid #ddd;
+  font-size: 12px;
+}
+
+/* レスポンシブ */
+@media screen and (max-width: 1000px) {
+  .profile {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-right {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+  }
+
+  .profile-left img {
+    max-height: 25vh;
+  }
+}
