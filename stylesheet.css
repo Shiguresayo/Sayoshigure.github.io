@@ -13,7 +13,7 @@ body {
 }
 
 #outer {
-  max-width: 1300px;
+  max-width: 1300px;  /* 左580 + 中央最大400 + 右400 + gap 20 ≈ 1300 */
   margin: auto;
   background-color: #fff;
   border-radius: 10px;
@@ -39,7 +39,7 @@ header h1 {
   font-size: 14px;
 }
 
-/* メイン部分を左右2カラムに */
+/* メイン3カラム */
 .profile {
   display: flex;
   gap: 20px;
@@ -47,31 +47,31 @@ header h1 {
   overflow: hidden;
 }
 
-/* 左側：プロフィール＋自己紹介＋リンク集 */
+/* 左カラム：プロフィール画像 */
 .profile-left {
   flex-shrink: 0;
-  width: 580px;       /* カラム幅を580pxに */
+  width: 580px;      
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .profile-left img {
-  width: 100%;         /* カラムいっぱいに表示 */
-  height: auto;        /* 縦横比維持 */
+  width: 100%;
+  height: auto;
   border-radius: 12px;
   object-fit: contain;
 }
 
-
-
-.profile-text {
-  margin-top: 10px; /* 画像との間に余白 */
-  overflow-y: auto;
-  padding-right: 10px;
+/* 中央カラム：自己紹介＋リンク集 */
+.profile-center {
+  flex: 1;
+  max-width: 400px;   /* 広がりすぎ防止 */
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-text h2, .profile-text h3, .profile-text h4 {
+.profile-text h2, .profile-text h3 {
   margin-top: 0;
   border-bottom: 1px solid #999;
   font-size: 16px;
@@ -96,13 +96,13 @@ a:hover {
   text-decoration: underline;
 }
 
-/* 右側：パモスロット */
+/* 右カラム：パモスロット */
 .profile-right {
+  flex-shrink: 0;
   width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 20px; /* 左カラムとの余白 */
 }
 
 .reel-container {
@@ -156,20 +156,19 @@ footer {
 }
 
 /* レスポンシブ */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1300px) {
   .profile {
     flex-direction: column;
     align-items: center;
   }
 
-  .profile-right {
+  .profile-left, .profile-center, .profile-right {
     width: 100%;
-    max-width: 400px;
-    margin-left: 0;
-    margin-top: 20px;
+    max-width: 600px;
+    margin-bottom: 20px;
   }
 
   .profile-left img {
-    max-height: 25vh;
+    max-height: 40vh;
   }
 }
