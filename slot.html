@@ -2,12 +2,14 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>スロットテスト</title>
+<title>スロット風リール</title>
 <style>
   .reel-container { display:flex; justify-content:center; gap:10px; margin:50px;}
-  .reel-wrapper { width:100px; height:100px; overflow:hidden; border:2px solid #333;}
+  .reel-wrapper { width:100px; height:100px; overflow:hidden; border:2px solid #333; border-radius:8px;}
   .reel-inner { display:flex; flex-direction:column; }
   .reel-inner img { width:100px; height:100px; }
+  #startBtn { display:block; margin:20px auto; padding:10px 20px; font-size:16px; }
+  #result { text-align:center; font-size:24px; margin-top:20px; font-weight:bold; }
 </style>
 </head>
 <body>
@@ -17,35 +19,62 @@
   <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
   <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
 </div>
+
 <button id="startBtn">スタート</button>
+<div id="result"></div>
 
 <script>
+const images = ["pamo1.jpg","pamo2.jpg","pamo3.jpg"];
 const reelInners = document.querySelectorAll(".reel-inner");
 const btn = document.getElementById("startBtn");
+const resultDiv = document.getElementById("result");
+
+// 前回位置(px)を保持
 let positions = [0,0,0];
 
 btn.addEventListener("click", () => {
     btn.disabled = true;
-    let speed = [10,10,10];
+    resultDiv.textContent = "";
+
+    const baseSpeed = 10;  // 高速回転(px/frame)
+    const stopDelays = [0, 15, 30]; // 左→右順に減速開始
+    const decelerationFrames = 30; // 減速期間フレーム数
+
     let frame = 0;
+    let speeds = [baseSpeed, baseSpeed, baseSpeed];
 
-    function animate(){
-        reelInners.forEach((inner,i)=>{
-            positions[i] += speed[i];
-            positions[i] %= 300; // 画像3枚 x100px
-            inner.style.transform = `translateY(-${Math.floor(positions[i])}px)`;
-
-            // 減速開始
-            if(frame > i*15){
-                let t = Math.min((frame-i*15)/30,1);
-                speed[i] = 10*(1-t*t); // 二次イージング
+    function animate() {
+        reelInners.forEach((inner, i) => {
+            // 減速判定
+            if(frame >= stopDelays[i]){
+                const t = Math.min((frame - stopDelays[i])/decelerationFrames,1);
+                speeds[i] = baseSpeed * (1 - t*t); // 二次イージングで滑らか減速
             }
+
+            // 現在位置更新
+            positions[i] += speeds[i];
+            positions[i] %= images.length*100; // ループ
+            inner.style.transform = `translateY(-${Math.floor(positions[i])}px)`;
         });
 
         frame++;
-        if(frame < 100){
+
+        // 減速完了前は次フレームへ
+        if(frame < stopDelays[2] + decelerationFrames){
             requestAnimationFrame(animate);
         } else {
+            // ランダムで最終停止位置
+            reelInners.forEach((inner, i) => {
+                const finalIndex = Math.floor(Math.random()*images.length);
+                positions[i] = finalIndex*100;
+                inner.style.transform = `translateY(-${positions[i]}px)`;
+            });
+
+            // 当たり判定
+            const firstIndex = positions[0]/100;
+            const allSame = positions.every(p => p/100 === firstIndex);
+            resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ…😢";
+
             btn.disabled = false;
         }
     }
