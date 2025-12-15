@@ -1,26 +1,75 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>パモスロット</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="slot.css">
+<meta charset="UTF-8">
+<title>パモスロット</title>
+<style>
+  .reel-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 50px;
+  }
+  .reel {
+    width: 100px;
+    height: 100px;
+  }
+  #startBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+</style>
 </head>
 <body>
 
-<h1>パモスロット</h1>
-
-<div id="slot">
-  <img class="reel" src="pamo1.jpg">
-  <img class="reel" src="pamo1.jpg">
-  <img class="reel" src="pamo1.jpg">
+<div class="reel-container">
+  <img class="reel" src="pamo1.jpg" alt="リール1">
+  <img class="reel" src="pamo1.jpg" alt="リール2">
+  <img class="reel" src="pamo1.jpg" alt="リール3">
 </div>
+<button id="startBtn">スタート</button>
 
-<button id="start">START</button>
-<p id="result"></p>
+<script>
+const images = ["pamo1.jpg", "pamo2.jpg", "pamo3.jpg"];
+const reels = document.querySelectorAll(".reel");
+const btn = document.getElementById("startBtn");
 
-<p><a href="index.html">← 戻る</a></p>
+btn.addEventListener("click", () => {
+    btn.disabled = true; // ボタン連打防止
 
-<script src="slot.js"></script>
+    // 各リールごとの切り替え回数
+    const timesArray = [20, 30, 40]; 
+    const interval = 100;
+
+    reels.forEach((reel, i) => {
+        let count = 0;
+        const reelInterval = setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            reel.src = images[randomIndex];
+            count++;
+            if(count >= timesArray[i]) {
+                clearInterval(reelInterval);
+                // 最後に止める画像を決める
+                const finalIndex = Math.floor(Math.random() * images.length);
+                reel.src = images[finalIndex];
+
+                // 全部止まったら当たりチェック
+                if(Array.from(reels).every(r => r.src.includes(reel.src.split('/').pop()))) {
+                    setTimeout(() => alert("当たり！"), 100);
+                }
+
+                // 最後のリールが止まったらボタン有効化
+                if(i === reels.length -1){
+                    btn.disabled = false;
+                }
+            }
+        }, interval);
+    });
+});
+</script>
+
 </body>
 </html>
+
