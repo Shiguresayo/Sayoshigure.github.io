@@ -22,23 +22,24 @@ body {
   min-height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+header {
+  text-align: center;
 }
 
 header h1 {
   margin: 0;
   font-size: 24px;
-  text-align: center;
 }
 
 .description {
-  text-align: center;
   margin-top: 5px;
   color: #666;
   font-size: 14px;
 }
 
-/* メイン部分：左右2カラム */
+/* メイン部分を左右2カラムに */
 .profile {
   display: flex;
   gap: 20px;
@@ -46,25 +47,26 @@ header h1 {
   overflow: hidden;
 }
 
-/* 左側：プロフィール＋リンク集 */
+/* 左側：プロフィール＋自己紹介＋リンク集 */
 .profile-left {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   overflow: hidden;
 }
 
-.profile img {
-  width: auto;       /* 横幅自動 */
-  height: auto;      /* 高さ自動 */
-  max-width: 250px;  /* 最大横幅 */
-  max-height: 35vh;  /* 最大高さ */
+.profile-left img {
+  width: auto;
+  height: auto;
+  max-width: 250px;
+  max-height: 30vh; /* 高さを少し抑える */
   border-radius: 12px;
   margin-bottom: 10px;
+  object-fit: contain; /* 縦横比を崩さず表示 */
 }
 
 .profile-text {
+  margin-top: 10px; /* 画像との間に余白 */
   overflow-y: auto;
   padding-right: 10px;
 }
@@ -100,6 +102,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 20px; /* 左カラムとの余白 */
 }
 
 .reel-container {
@@ -162,6 +165,7 @@ footer {
   .profile-right {
     width: 100%;
     max-width: 400px;
+    margin-left: 0;
     margin-top: 20px;
   }
 
