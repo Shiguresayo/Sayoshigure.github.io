@@ -1,49 +1,45 @@
-const images = [
-  "pamo1.jpg",
-  "pamo2.jpg",
-  "pamo3.jpg"
-];
-
-const reel = document.getElementById("reel");
+const images = ["pamo1.jpg", "pamo2.jpg", "pamo3.jpg"];
+const reels = document.querySelectorAll(".reel");
 const start = document.getElementById("start");
 const result = document.getElementById("result");
 
-let index = 0;
-let timer = null;
-let state = "idle";
+let timers = [];
+let spinning = false;
+
+function spinReel(reel, speed) {
+  let index = 0;
+  return setInterval(() => {
+    index = Math.floor(Math.random() * images.length);
+    reel.src = images[index];
+  }, speed);
+}
 
 start.addEventListener("click", () => {
+  if (spinning) return;
 
-  if (state === "idle") {
+  spinning = true;
+  start.disabled = true;
+  start.textContent = "STOP";
+  result.textContent = "";
 
-    
-    state = "spinning";
-    start.textContent = "STOP";
-    result.textContent = "";
+  // 回転開始
+  reels.forEach((reel, i) => {
+    timers[i] = spinReel(reel, 80 + i * 40);
+  });
 
-    timer = setInterval(() => {
-      index = (index + 1) % images.length;
-      reel.src = images[index];
-    }, 100);
+  // 2秒後に停止
+  setTimeout(() => {
+    timers.forEach(clearInterval);
+    start.textContent = "START";
+    start.disabled = false;
+    spinning = false;
 
-  } else if (state === "spinning") {
-
-    
-    start.disabled = true;
-
-    setTimeout(() => {
-      clearInterval(timer);
-      state = "idle";
-      start.textContent = "START";
-      start.disabled = false;
-
-
-      if (images[index].includes("star")) {
-        result.textContent = "✨ 当たり！ ✨";
-      } else {
-        result.textContent = "はずれ";
-      }
-
-    }, 2000);
-  }
+    // 判定
+    const values = [...reels].map(r => r.src);
+    if (values[0] === values[1] && values[1] === values[2]) {
+      result.textContent = "🎉 大当たり！";
+    } else {
+      result.textContent = "はずれ";
+    }
+  }, 2000);
 });
