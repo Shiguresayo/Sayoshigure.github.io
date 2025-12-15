@@ -50,15 +50,15 @@ header h1 {
 /* 左カラム：プロフィール画像 */
 .profile-left {
   flex-shrink: 0;
-  width: 300px;      
+  width: 500px;      
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .profile-left img {
-  width: 300px;
-  max-width: 300px;
+  width: 500px;
+  max-width: 500px;
   height: auto;
   border-radius: 12px;
   object-fit: contain;
