@@ -13,7 +13,7 @@ body {
 }
 
 #outer {
-  max-width: 1300px;  /* 左580 + 中央最大400 + 右400 + gap 20 ≈ 1300 */
+  max-width: 1300px;
   margin: auto;
   background-color: #fff;
   border-radius: 10px;
@@ -65,37 +65,14 @@ header h1 {
   margin-bottom: 10px;
 }
 
-/* 中央カラム：自己紹介＋リンク集 */
+/* 中央カラム */
 .profile-center {
-    flex: 1;  /* 左右カラムの余白分をここに分配 */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-text h2, .profile-text h3 {
-  margin-top: 0;
-  border-bottom: 1px solid #999;
-  font-size: 16px;
-}
-
-.links ul {
-  padding-left: 1em;
-  margin: 5px 0;
-}
-
-.links li {
-  margin: 3px 0;
-  font-size: 14px;
-}
-
-a {
-  color: #003366;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* 右カラム：パモスロット */
+/* 右カラム */
 .profile-right {
   flex-shrink: 0;
   width: 400px;
@@ -104,6 +81,7 @@ a:hover {
   align-items: center;
 }
 
+/* パモスロット */
 .reel-container {
   display: flex;
   justify-content: center;
@@ -129,6 +107,7 @@ a:hover {
   height: 100px;
 }
 
+/* ボタン・結果表示 */
 #startBtn {
   display: block;
   margin: 10px auto;
@@ -154,7 +133,7 @@ footer {
   font-size: 12px;
 }
 
-/* レスポンシブ */
+/* レスポンシブ: 幅700px以下でスマホ用に縮小 */
 @media screen and (max-width: 700px) {
   .profile {
     flex-direction: column;
@@ -168,7 +147,7 @@ footer {
   }
 
   .profile-left img {
-     width: 50%; /* スマホ時はカラム幅の半分 */
+    width: 50%; /* スマホ時はカラム幅の半分 */
     max-width: 200px;
     height: auto;
   }
