@@ -24,50 +24,51 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   padding: 20px;
-  min-height: 90vh;
+  min-height: 90vh; /* 画面に収める */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+header {
+  text-align: center;
 }
 
 header h1 {
   margin: 0;
   font-size: 24px;
-  text-align: center;
 }
 
 .description {
-  text-align: center;
   margin-top: 5px;
   color: #666;
   font-size: 14px;
 }
 
+/* メイン部分を左右2カラムに */
 .profile {
   display: flex;
-  flex-direction: column;
   gap: 20px;
-  align-items: flex-start;
+  flex: 1;
   overflow: hidden;
 }
 
+/* 左側：プロフィール＋リンク集 */
 .profile-left {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   overflow: hidden;
 }
 
-.profile img {
+.profile-left img {
   width: auto;
-  max-height: 25vh;
+  max-height: 35vh;
   border-radius: 12px;
   margin-bottom: 10px;
 }
 
 .profile-text {
-  overflow: auto;
+  overflow-y: auto;
   padding-right: 10px;
 }
 
@@ -96,7 +97,14 @@ a:hover {
   text-decoration: underline;
 }
 
-/* パモスロット */
+/* 右側：パモスロット */
+.profile-right {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .reel-container { display:flex; justify-content:center; gap:10px; margin-top:10px;}
 .reel-wrapper { width:100px; height:100px; overflow:hidden; border:2px solid #333; border-radius:8px;}
 .reel-inner { display:flex; flex-direction:column; }
@@ -115,18 +123,20 @@ footer {
 }
 
 /* レスポンシブ */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .profile {
     flex-direction: column;
     align-items: center;
   }
 
-  .profile img {
-    max-height: 20vh;
+  .profile-right {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
   }
 
-  .profile-text {
-    width: 100%;
+  .profile-left img {
+    max-height: 25vh;
   }
 }
 </style>
@@ -141,7 +151,7 @@ footer {
 </header>
 
 <main class="profile">
-  <!-- 左側：プロフィール＋リンク集＋埋め込みパモスロット -->
+  <!-- 左側：プロフィール＋リンク集 -->
   <div class="profile-left">
     <img src="maid_400x400.jpg" alt="プロフィール画像">
     <div class="profile-text">
@@ -160,15 +170,19 @@ footer {
         </ul>
 
         <h4>ミニゲーム：パモスロット</h4>
-        <div class="reel-container">
-          <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
-          <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
-          <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
-        </div>
-        <button id="startBtn">スタート</button>
-        <div id="result"></div>
       </section>
     </div>
+  </div>
+
+  <!-- 右側：パモスロット埋め込み -->
+  <div class="profile-right">
+    <div class="reel-container">
+      <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
+      <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
+      <div class="reel-wrapper"><div class="reel-inner"><img src="pamo1.jpg"><img src="pamo2.jpg"><img src="pamo3.jpg"></div></div>
+    </div>
+    <button id="startBtn">スタート</button>
+    <div id="result"></div>
   </div>
 </main>
 
