@@ -57,8 +57,7 @@ header h1 {
 }
 
 .profile-left img {
-  width: 100%;
-  max-width: 150px;
+  width: 50%;
   height: auto;
   border-radius: 12px;
   margin-bottom: 10px;
