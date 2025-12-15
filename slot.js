@@ -35,11 +35,15 @@ start.addEventListener("click", () => {
     spinning = false;
 
     // 判定
-    const values = [...reels].map(r => r.src);
-    if (values[0] === values[1] && values[1] === values[2]) {
-      result.textContent = "🎉 大当たり！";
-    } else {
-      result.textContent = "はずれ";
-    }
+ const values = [...reels].map(r =>
+  r.src.split("/").pop()
+);
+
+if (values.every(v => v === values[0])) {
+  result.textContent = "🎉 当たり！ 🎉";
+} else {
+  result.textContent = "はずれ";
+}
+
   }, 2000);
 });
