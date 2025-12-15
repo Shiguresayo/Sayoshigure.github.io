@@ -39,29 +39,35 @@ const btn = document.getElementById("startBtn");
 btn.addEventListener("click", () => {
     btn.disabled = true; // ボタン連打防止
 
-    // 各リールごとの切り替え回数
-    const timesArray = [20, 30, 40]; 
+    // 各リールごとに「回転中の表示周期」を決める
+    const reelCycles = [0,1,2]; // 0: pamo1, 1: pamo2, 2: pamo3 の順にループ
+    const timesArray = [20, 30, 40]; // 回転回数
     const interval = 100;
 
     reels.forEach((reel, i) => {
         let count = 0;
+        let cycleIndex = 0;
+
         const reelInterval = setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * images.length);
-            reel.src = images[randomIndex];
+            // 回転中は周期的に画像を切り替える
+            reel.src = images[reelCycles[cycleIndex % images.length]];
+            cycleIndex++;
             count++;
-            if(count >= timesArray[i]) {
+
+            if(count >= timesArray[i]){
                 clearInterval(reelInterval);
-                // 最後に止める画像を決める
+
+                // 最後に止める画像をランダムで決める
                 const finalIndex = Math.floor(Math.random() * images.length);
                 reel.src = images[finalIndex];
 
-                // 全部止まったら当たりチェック
+                // 全部止まったら当たり判定
                 if(Array.from(reels).every(r => r.src.includes(reel.src.split('/').pop()))) {
                     setTimeout(() => alert("当たり！"), 100);
                 }
 
                 // 最後のリールが止まったらボタン有効化
-                if(i === reels.length -1){
+                if(i === reels.length - 1){
                     btn.disabled = false;
                 }
             }
@@ -72,4 +78,3 @@ btn.addEventListener("click", () => {
 
 </body>
 </html>
-
