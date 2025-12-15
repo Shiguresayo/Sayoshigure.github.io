@@ -50,15 +50,15 @@ header h1 {
 /* 左カラム：プロフィール画像 */
 .profile-left {
   flex-shrink: 0;
-  width: 580px;      
+  width: 300px;      
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .profile-left img {
-  width: auto%;
-  max-height: 35vh;
+  width: 50%;
+  height: auto;
   border-radius: 12px;
   margin-bottom: 10px;
   object-fit: contain;
@@ -66,10 +66,7 @@ header h1 {
 
 /* 中央カラム：自己紹介＋リンク集 */
 .profile-center {
-  flex: 1;
-  max-width: 400px;   /* 広がりすぎ防止 */
-  display: flex;
-  flex-direction: column;
+    flex: 1;  /* 左右カラムの余白分をここに分配 */
 }
 
 .profile-text h2, .profile-text h3 {
