@@ -56,14 +56,14 @@ header h1 {
 }
 
 .profile-left img {
-  width: auto;
-  height: auto;
-  max-width: 250px;
-  max-height: 30vh; /* 高さを少し抑える */
+  width: auto;        /* 幅は自動 */
+  height: auto;       /* 高さも自動 */
+  max-width: 100%;    /* カラム幅に収まるように */
+  max-height: 60vh;   /* 画面高さの60％以内 */
   border-radius: 12px;
-  margin-bottom: 10px;
-  object-fit: contain; /* 縦横比を崩さず表示 */
+  object-fit: contain; /* 縦横比を崩さない */
 }
+
 
 .profile-text {
   margin-top: 10px; /* 画像との間に余白 */
