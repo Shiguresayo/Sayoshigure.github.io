@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>スロット風リール</title>
+<title>スロット風リール（高速→停止）</title>
 <style>
   .reel-container { display:flex; justify-content:center; gap:10px; margin:50px;}
   .reel-wrapper { width:100px; height:100px; overflow:hidden; border:2px solid #333; border-radius:8px;}
@@ -10,6 +10,7 @@
   .reel-inner img { width:100px; height:100px; }
   #startBtn { display:block; margin:20px auto; padding:10px 20px; font-size:16px; }
   #result { text-align:center; font-size:24px; margin-top:20px; font-weight:bold; }
+  #links { text-align:center; margin-top:30px; font-size:18px; }
 </style>
 </head>
 <body>
@@ -22,6 +23,11 @@
 
 <button id="startBtn">スタート</button>
 <div id="result"></div>
+
+<!-- リンク集 -->
+<div id="links">
+  <a href="https://example.com" target="_blank">私のリンク集はこちら</a>
+</div>
 
 <script>
 const images = ["pamo1.jpg","pamo2.jpg","pamo3.jpg"];
@@ -36,35 +42,24 @@ btn.addEventListener("click", () => {
     btn.disabled = true;
     resultDiv.textContent = "";
 
-    const baseSpeed = 10;  // 高速回転(px/frame)
-    const stopDelays = [0, 15, 30]; // 左→右順に減速開始
-    const decelerationFrames = 30; // 減速期間フレーム数
+    const speed = 15; // 高速回転(px/frame)
+    const spins = 50; // 回転フレーム数
 
     let frame = 0;
-    let speeds = [baseSpeed, baseSpeed, baseSpeed];
 
     function animate() {
-        reelInners.forEach((inner, i) => {
-            // 減速判定
-            if(frame >= stopDelays[i]){
-                const t = Math.min((frame - stopDelays[i])/decelerationFrames,1);
-                speeds[i] = baseSpeed * (1 - t*t); // 二次イージングで滑らか減速
-            }
-
-            // 現在位置更新
-            positions[i] += speeds[i];
+        reelInners.forEach((inner,i) => {
+            positions[i] += speed;
             positions[i] %= images.length*100; // ループ
             inner.style.transform = `translateY(-${Math.floor(positions[i])}px)`;
         });
 
         frame++;
-
-        // 減速完了前は次フレームへ
-        if(frame < stopDelays[2] + decelerationFrames){
+        if(frame < spins){
             requestAnimationFrame(animate);
         } else {
-            // ランダムで最終停止位置
-            reelInners.forEach((inner, i) => {
+            // 停止時にランダムで最終位置
+            reelInners.forEach((inner,i)=>{
                 const finalIndex = Math.floor(Math.random()*images.length);
                 positions[i] = finalIndex*100;
                 inner.style.transform = `translateY(-${positions[i]}px)`;
