@@ -58,11 +58,7 @@ header h1 {
 
 .profile-left img {
   width: 500px;
-  max-width: 500px;
   height: auto;
-  border-radius: 12px;
-  object-fit: contain;
-  margin-bottom: 10px;
 }
 
 /* 中央カラム */
