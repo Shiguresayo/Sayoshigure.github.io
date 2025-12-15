@@ -125,7 +125,7 @@ btn.addEventListener("click", () => {
                 if(reelIndex === reelInners.length-1){
                     const first = currentIndices[0];
                     const allSame = currentIndices.every(idx => idx === first);
-                    resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ…😢";
+                    resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ";
                     btn.disabled = false;
                 }
             }
