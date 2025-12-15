@@ -49,7 +49,7 @@ header h1 {
   display: flex;
   gap: 20px;
   align-items: flex-start;
-  flex-wrap: nowrap; /* 横並び固定 */
+  flex-wrap: nowrap;
 }
 
 /* 左カラム：プロフィール画像 */
@@ -125,16 +125,13 @@ a:hover {
   border-radius: 8px;
 }
 
-.reel-inner {
-  display: flex;
-  flex-direction: column; /* 縦回転 */
-}
-
 .reel-inner img {
   width: 100px;
   height: 100px;
+  display: none; /* 最初は非表示 */
 }
 
+/* ボタンと結果 */
 #startBtn {
   display: block;
   margin: 10px auto;
@@ -160,7 +157,7 @@ footer {
   font-size: 12px;
 }
 
-/* レスポンシブ調整（画面狭いと縦並び） */
+/* レスポンシブ */
 @media screen and (max-width: 1200px) {
   .profile {
     flex-direction: column;
@@ -182,7 +179,6 @@ footer {
 
 <body>
 <div id="outer">
-
 <header>
   <h1>小夜時雨のリンク集</h1>
   <p class="description">さよくんだよ〜</p>
@@ -233,53 +229,49 @@ footer {
 
 <script>
 const images = ["pamo1.jpg","pamo2.jpg","pamo3.jpg"];
-const reelInners = document.querySelectorAll(".reel-inner");
+const reels = document.querySelectorAll(".reel-inner");
 const btn = document.getElementById("startBtn");
 const resultDiv = document.getElementById("result");
 
-let positions = [0,0,0];
-
 btn.addEventListener("click", () => {
-    btn.disabled = true;
-    resultDiv.textContent = "";
+  btn.disabled = true;
+  resultDiv.textContent = "";
 
-    const speed = 20;
-    const spinFrames = 50;
-    const stopDelays = [0, 10, 20];
-    let frame = 0;
-    let stopped = [false, false, false];
+  const spinTime = 2000; // 回転全体の時間(ms)
+  const intervalTime = 100; // 切り替え速度(ms)
+  let elapsed = 0;
 
-    function animate() {
-        reelInners.forEach((inner, i) => {
-            if(!stopped[i]){
-                positions[i] += speed;
-                positions[i] %= images.length*100;
-                inner.style.transform = `translateY(${Math.floor(positions[i])}px)`;
-            }
+  // 現在の画像インデックス
+  let indices = [0,0,0];
+
+  const interval = setInterval(() => {
+    reels.forEach((reel, i) => {
+      indices[i] = (indices[i] + 1) % images.length;
+      const imgs = reel.querySelectorAll("img");
+      imgs.forEach((img, idx) => {
+        img.style.display = (idx === indices[i]) ? "block" : "none";
+      });
+    });
+
+    elapsed += intervalTime;
+    if(elapsed >= spinTime){
+      clearInterval(interval);
+
+      // 最後の表示をランダムに決める
+      reels.forEach((reel, i) => {
+        const finalIndex = Math.floor(Math.random() * images.length);
+        const imgs = reel.querySelectorAll("img");
+        imgs.forEach((img, idx) => {
+          img.style.display = (idx === finalIndex) ? "block" : "none";
         });
+        indices[i] = finalIndex;
+      });
 
-        frame++;
-
-        reelInners.forEach((inner, i) => {
-            if(!stopped[i] && frame >= spinFrames + stopDelays[i]){
-                const finalIndex = Math.floor(Math.random()*images.length);
-                positions[i] = finalIndex*100;
-                inner.style.transform = `translateY(-${positions[i]}px)`;
-                stopped[i] = true;
-            }
-        });
-
-        if(stopped.every(v => v)){
-            const first = positions[0]/100;
-            const allSame = positions.every(p => p/100 === first);
-            resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ";
-            btn.disabled = false;
-        } else {
-            requestAnimationFrame(animate);
-        }
+      const allSame = indices.every(v => v === indices[0]);
+      resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ";
+      btn.disabled = false;
     }
-
-    animate();
+  }, intervalTime);
 });
 </script>
 
