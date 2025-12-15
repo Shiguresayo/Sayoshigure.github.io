@@ -50,7 +50,7 @@ header h1 {
 /* 左側：プロフィール＋自己紹介＋リンク集 */
 .profile-left {
   flex-shrink: 0;
-  width: 600px;       /* カラム幅を600pxに */
+  width: 580px;       /* カラム幅を580pxに */
   display: flex;
   flex-direction: column;
   align-items: center;
