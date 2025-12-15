@@ -1,27 +1,49 @@
-const symbols = ["🍒", "🍋", "🍊", "⭐"];
-
-const reels = [
-  document.getElementById("reel1"),
-  document.getElementById("reel2"),
-  document.getElementById("reel3")
+const images = [
+  "pamo1.jpg",
+  "pamo2.jpg",
+  "pamo3.jpg"
 ];
 
+const reel = document.getElementById("reel");
+const start = document.getElementById("btn");
 const result = document.getElementById("result");
-const button = document.getElementById("start");
 
-button.addEventListener("click", () => {
-  result.textContent = "";
+let index = 0;
+let timer = null;
+let state = "idle";
 
-  const values = reels.map(reel => {
-    const randomIndex = Math.floor(Math.random() * symbols.length);
-    const symbol = symbols[randomIndex];
-    reel.textContent = symbol;
-    return symbol;
-  });
+btn.addEventListener("click", () => {
 
-  if (values[0] === values[1] && values[1] === values[2]) {
-    result.textContent = "🎉 当たり！";
-  } else {
-    result.textContent = "もう一回！";
+  if (state === "idle") {
+
+    
+    state = "spinning";
+    btn.textContent = "STOP";
+    result.textContent = "";
+
+    timer = setInterval(() => {
+      index = (index + 1) % images.length;
+      reel.src = images[index];
+    }, 100);
+
+  } else if (state === "spinning") {
+
+    
+    btn.disabled = true;
+
+    setTimeout(() => {
+      clearInterval(timer);
+      state = "idle";
+      btn.textContent = "START";
+      btn.disabled = false;
+
+
+      if (images[index].includes("star")) {
+        result.textContent = "✨ 当たり！ ✨";
+      } else {
+        result.textContent = "はずれ";
+      }
+
+    }, 2000);
   }
 });
