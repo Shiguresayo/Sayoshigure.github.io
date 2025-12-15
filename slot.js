@@ -1,49 +1,56 @@
-const images = ["pamo1.jpg", "pamo2.jpg", "pamo3.jpg"];
-const reels = document.querySelectorAll(".reel");
-const start = document.getElementById("start");
-const result = document.getElementById("result");
+const images = ["pamo1.jpg","pamo2.jpg","pamo3.jpg"];
+const reelInners = document.querySelectorAll(".reel-inner");
+const btn = document.getElementById("startBtn");
+const resultDiv = document.getElementById("result");
 
-let timers = [];
-let spinning = false;
+let positions = [0,0,0];
+const imgHeight = 100; // スロット画像の高さ
 
-function spinReel(reel, speed) {
-  let index = 0;
-  return setInterval(() => {
-    index = Math.floor(Math.random() * images.length);
-    reel.src = images[index];
-  }, speed);
-}
+btn.addEventListener("click", () => {
+    btn.disabled = true;
+    resultDiv.textContent = "";
 
-start.addEventListener("click", () => {
-  if (spinning) return;
+    const speed = 20;      // 回転速度
+    const spinFrames = 50; // スピン時間
+    const stopDelays = [0, 10, 20]; 
+    let frame = 0;
+    let stopped = [false, false, false];
 
-  spinning = true;
-  start.disabled = true;
-  start.textContent = "STOP";
-  result.textContent = "";
+    function animate() {
+        reelInners.forEach((inner, i) => {
+            if(!stopped[i]){
+                positions[i] += speed;
 
-  // 回転開始
-  reels.forEach((reel, i) => {
-    timers[i] = spinReel(reel, 80 + i * 40);
-  });
+                // 下まで行ったらリセット
+                if(positions[i] >= images.length * imgHeight){
+                    positions[i] = 0;
+                }
 
-  // 2秒後に停止
-  setTimeout(() => {
-    timers.forEach(clearInterval);
-    start.textContent = "START";
-    start.disabled = false;
-    spinning = false;
+                inner.style.transform = `translateY(-${Math.floor(positions[i])}px)`;
+            }
+        });
 
-    // 判定
- const values = [...reels].map(r =>
-  r.src.split("/").pop()
-);
+        frame++;
 
-if (values.every(v => v === values[0])) {
-  result.textContent = "🎉 当たり！ 🎉";
-} else {
-  result.textContent = "はずれ";
-}
+        // 停止判定
+        reelInners.forEach((inner, i) => {
+            if(!stopped[i] && frame >= spinFrames + stopDelays[i]){
+                const finalIndex = Math.floor(Math.random() * images.length);
+                positions[i] = finalIndex * imgHeight;
+                inner.style.transform = `translateY(-${positions[i]}px)`;
+                stopped[i] = true;
+            }
+        });
 
-  }, 2000);
+        if(stopped.every(v => v)){
+            const first = positions[0]/imgHeight;
+            const allSame = positions.every(p => p/imgHeight === first);
+            resultDiv.textContent = allSame ? "当たり！🎉" : "はずれ";
+            btn.disabled = false;
+        } else {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    animate();
 });
